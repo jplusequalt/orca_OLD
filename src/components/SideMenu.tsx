@@ -52,8 +52,8 @@ export const SideMenu: React.FC<SideMenuProps> = ({ visible }) => {
                   alignItems: 'center', 
                   gap: '1rem'
                   }} >
-                <DashboardIcon sx={{ fill: theme.palette.primary.light }} />
-                <ListItemText primary={board} sx={{ color: theme.palette.primary.light }} />
+                <DashboardIcon sx={{ fill: theme.palette.text.primary }} />
+                <ListItemText primary={board} sx={{ color: theme.palette.text.primary }} />
               </ListItemIcon>
             </ListItemButton>
           </ListItem>

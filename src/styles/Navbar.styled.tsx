@@ -9,6 +9,7 @@ export const Nav = styled(AppBar)(({ theme }) => ({
   flexDirection: 'row',
   justifyContent: 'space-between',
   alignItems: 'center',
+  backgroundColor: theme.palette.background.paper,
   zIndex: theme.zIndex.drawer + 1,
   [theme.breakpoints.down("sm")]: {
     padding: '1rem'
