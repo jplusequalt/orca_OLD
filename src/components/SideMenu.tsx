@@ -1,12 +1,12 @@
-import { Box, Drawer } from '@mui/material';
+import { Box } from '@mui/material';
 import { theme } from '../Theme';
-import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import DashboardIcon from '@mui/icons-material/Dashboard';
+import ViewColumnIcon from '@mui/icons-material/ViewColumn';
+import { BoardMenuList } from '../styles/SideMenu.styled';
 
 const drawerWidth = 300;
 
@@ -17,16 +17,8 @@ type SideMenuProps = {
 export const SideMenu: React.FC<SideMenuProps> = ({ visible }) => {
 
   return (
-    <Drawer 
-      sx={{
-        width: drawerWidth,
-        flexShrink: 0,
-        ['& .MuiDrawer-paper']: {
-          width: drawerWidth,
-          boxSizing: 'border-box',
-          backgroundColor: theme.palette.background.paper
-        }
-      }}
+    <BoardMenuList
+      drawerWidth={drawerWidth}
       variant="persistent"
       anchor="left"
       open={visible}
@@ -52,13 +44,13 @@ export const SideMenu: React.FC<SideMenuProps> = ({ visible }) => {
                   alignItems: 'center', 
                   gap: '1rem'
                   }} >
-                <DashboardIcon sx={{ fill: theme.palette.text.primary }} />
+                <ViewColumnIcon sx={{ fill: theme.palette.text.primary }} />
                 <ListItemText primary={board} sx={{ color: theme.palette.text.primary }} />
               </ListItemIcon>
             </ListItemButton>
           </ListItem>
         )}
       </List>
-    </Drawer>
+    </BoardMenuList>
   );
 }

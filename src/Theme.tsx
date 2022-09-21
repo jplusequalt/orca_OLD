@@ -19,7 +19,13 @@ export const theme: Theme = createTheme({
     MuiCssBaseline: {
       styleOverrides: (themeParam) =>`
         body {
-          background-color: ${themeParam.palette.background.default}
+          background-color: ${themeParam.palette.background.default};
+          box-sizing: border-box;
+        }
+
+        * {
+          scrollbar-width: thin;
+          scrollbar-color: ${themeParam.palette.background.paper} transparent;
         }
       `,
     },

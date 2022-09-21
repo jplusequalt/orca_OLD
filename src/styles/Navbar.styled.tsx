@@ -3,14 +3,14 @@ import { styled } from "@mui/material/styles";
 import { theme } from "../Theme";
 
 export const Nav = styled(AppBar)(({ theme }) => ({
-  position: 'static',
+  position: 'sticky',
   padding: '1.25rem',
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'space-between',
   alignItems: 'center',
   backgroundColor: theme.palette.background.paper,
-  zIndex: theme.zIndex.drawer + 1,
+  zIndex: theme.zIndex.drawer + 2,
   [theme.breakpoints.down("sm")]: {
     padding: '1rem'
   }
