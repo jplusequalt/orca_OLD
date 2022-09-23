@@ -1,7 +1,7 @@
 import ChevronLeft from "@mui/icons-material/ChevronLeft";
-import { Fab, styled } from "@mui/material";
+import { Box, Fab, styled, Grid } from "@mui/material";
 
-export const KanbanBoard = styled('div', { shouldForwardProp: (prop) => prop !== 'open' })<{
+export const KanbanWrapper = styled('div', { shouldForwardProp: (prop) => prop !== 'open' })<{
   open?: boolean;
 }>(({ theme, open }) => ({
   flexGrow: 1,
@@ -61,3 +61,24 @@ export const ToggleSideMenu = styled(Fab, { shouldForwardProp: (prop) => prop !=
     marginLeft: 0
   })
 }));
+
+export const KanbanHeader = styled(Box)({
+  display: 'flex', 
+  justifyContent: 'space-between', 
+  marginBottom: '3rem'
+});
+
+export const KanbanBoard = styled(Grid)({
+  paddingLeft: '1.5rem', 
+  paddingRight: '1rem', 
+  maxHeight: '62rem', 
+  overflowY: 'auto'
+});
+
+export const KanbanRow = styled(Grid)({
+  display: 'flex', 
+  flexDirection: 'column', 
+  alignItems: 'flex-start', 
+  gap: '2.5rem', 
+  paddingRight: '1.5rem'
+});
