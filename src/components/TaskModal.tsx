@@ -3,7 +3,7 @@ import { Box, Modal, Typography, FormControl, Select, MenuItem, Avatar, SelectCh
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ShareIcon from '@mui/icons-material/Share';
 import ClearIcon from '@mui/icons-material/Clear';
-import { Assignee, AssigneeAvatar, TaskStatus } from '../styles/TaskModal.styled';
+import { Assignee, AssigneeAvatar, IconBox, TaskStatus } from '../styles/TaskModal.styled';
 
 type TaskModalProps = {
   open: boolean,
@@ -13,7 +13,7 @@ type TaskModalProps = {
 export const TaskModal: React.FC<TaskModalProps> = ({ open, handleOpen }) => {
 
   const [taskStatus, setTaskStatus] = useState<string>('Todo');
-  const [assignee, setAssignee] = useState<string>('');
+  const [assignee, setAssignee] = useState<string>('Person 1');
 
   const handleTaskChange = (event: SelectChangeEvent) => {
     setTaskStatus(event.target.value);
@@ -27,14 +27,13 @@ export const TaskModal: React.FC<TaskModalProps> = ({ open, handleOpen }) => {
     <Modal open={open} onClose={() => handleOpen(false)}>
       <Box
         sx={{
-          position: 'absolute' as 'absolute',
+          position: 'absolute',
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
           width: '75%',
           height: '75%',
           bgcolor: 'background.paper',
-          border: '2px solid #000',
           borderRadius: '8px',
           boxShadow: 24,
           p: 4,
@@ -43,9 +42,15 @@ export const TaskModal: React.FC<TaskModalProps> = ({ open, handleOpen }) => {
           <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
             <Typography>Tag</Typography>
             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', gap: '1rem' }}>
-              <VisibilityIcon />
-              <ShareIcon />
-              <ClearIcon />
+              <IconBox>
+                <VisibilityIcon />
+              </IconBox>
+              <IconBox>
+                <ShareIcon />
+              </IconBox>
+              <IconBox>
+                <ClearIcon onClick={() => handleOpen(false)} />
+              </IconBox>
             </Box>
           </Box>
           <Box>
@@ -78,7 +83,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({ open, handleOpen }) => {
                     input={<Assignee />}
                     inputProps={{ 'aria-label': 'Without label' }}
                   >
-                    <MenuItem value='Person 1' sx={{ display: 'flex', gap: '1rem'}}>
+                    <MenuItem value='Person 1' sx={{ display: 'flex', gap: '1rem' }}>
                       <AssigneeAvatar />
                       Person 1
                     </MenuItem>

@@ -1,4 +1,11 @@
-import { styled, InputBase, Avatar } from '@mui/material';
+import { styled, InputBase, Avatar, Box } from '@mui/material';
+
+export const IconBox = styled(Box)({
+  padding: '5px 5px 0px 5px',
+  '&:hover': {
+    backgroundColor: 'rgba(0, 0, 0, 0.3)'
+  }
+});
 
 export const TaskStatus = styled(InputBase)(({ theme }) => ({
   '& .MuiInputBase-input': {
@@ -6,11 +13,17 @@ export const TaskStatus = styled(InputBase)(({ theme }) => ({
     position: 'relative',
     backgroundColor: 'green',
     fontSize: 16,
-    padding: '5px 20px 5px 12px',
+    paddingLeft: '10px',
     transition: theme.transitions.create(['border-color', 'box-shadow']),
     '&:focus': {
       borderRadius: 4,
+    },
+    '&:hover': {
+      filter: 'brightness(0.8)'
     }
+  },
+  '& .MuiSelect-icon': {
+    fill: 'white'
   }
 }));
 
@@ -19,11 +32,18 @@ export const Assignee = styled(InputBase)(({ theme }) => ({
     border: 'none',
     position: 'relative',
     backgroundColor: 'transparent',
-    fontSize: 16,
-    padding: '5px 20px 5px 12px',
+    fontSize: '1rem',
+    padding: '2px 10px 2px 10px',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: '1rem',
     transition: theme.transitions.create(['border-color', 'box-shadow']),
     '&:focus': {
       borderRadius: 4,
+    },
+    '&:hover': {
+      backgroundColor: 'rgba(0, 0, 0, 0.2)'
     }
   },
   '& .MuiSelect-icon': {
@@ -32,6 +52,6 @@ export const Assignee = styled(InputBase)(({ theme }) => ({
 }));
 
 export const AssigneeAvatar = styled(Avatar)({
-  width: '1rem',
-  height: '1rem'
+  width: '1.0rem',
+  height: '1.0rem'
 });
