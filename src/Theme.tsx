@@ -15,6 +15,18 @@ export const theme: Theme = createTheme({
       secondary: '#a1acc0',
     }
   },
+  typography: {
+    subtitle1: {
+      '@media(max-width: 810px)': {
+        fontSize: '0.9rem'
+      }
+    },
+    subtitle2: {
+      '@media(max-width: 810px)': {
+        fontSize: '0.80rem'
+      }
+    }
+  },
   components: {
     MuiCssBaseline: {
       styleOverrides: (themeParam) =>`
@@ -27,7 +39,7 @@ export const theme: Theme = createTheme({
           scrollbar-width: thin;
           scrollbar-color: ${themeParam.palette.background.paper} transparent;
         }
-      `,
-    },
+      `
+    }
   },
 });

@@ -1,7 +1,8 @@
 import { styled, InputBase, Avatar, Box } from '@mui/material';
 
 export const IconBox = styled(Box)({
-  padding: '5px 5px 0px 5px',
+  display: 'flex',
+  alignItems: 'center',
   '&:hover': {
     backgroundColor: 'rgba(0, 0, 0, 0.3)'
   }

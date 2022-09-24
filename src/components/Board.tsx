@@ -1,10 +1,11 @@
-import { KanbanBoard, KanbanHeader, KanbanRow, KanbanWrapper, ToggleSideMenu, ToggleSideMenuIcon } from '../styles/Board.styled';
-import React, { SetStateAction, Dispatch } from 'react';
+import { KanbanBoard, KanbanHeader, KanbanRow, KanbanRowHeader, KanbanWrapper, ToggleSideMenu, ToggleSideMenuIcon } from '../styles/Board.styled';
+import React, { SetStateAction, Dispatch, useState } from 'react';
 import { Box, Grid, Typography, Fab, Popover } from '@mui/material';
 import CircleIcon from '@mui/icons-material/Circle';
 import AddIcon from '@mui/icons-material/Add';
 import { theme } from '../Theme';
 import { TaskPreview } from './TaskPreview';
+import { AddTask } from './AddTask';
 
 type BoardProps = {
   sideMenuToggle: Dispatch<SetStateAction<boolean>>
@@ -13,7 +14,8 @@ type BoardProps = {
 
 export const Board: React.FC<BoardProps> = ({ sideMenuToggle, sideMenuOpen }) => {
 
-  const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const [newTask, setNewTask] = useState<boolean>(false);
 
   const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -26,7 +28,11 @@ export const Board: React.FC<BoardProps> = ({ sideMenuToggle, sideMenuOpen }) =>
   const open = Boolean(anchorEl);
 
   return (
-    <Box sx={{ width: '100%', display: 'flex' }}>
+    <Box 
+      sx={{ 
+        width: '100%', 
+        display: 'flex'
+      }}>
       <KanbanWrapper open={sideMenuOpen}>
         <ToggleSideMenu
           onClick={() => { sideMenuToggle(!sideMenuOpen) }}
@@ -55,8 +61,8 @@ export const Board: React.FC<BoardProps> = ({ sideMenuToggle, sideMenuOpen }) =>
             onClose={handlePopoverClose}
             disableRestoreFocus
           >
-        <Typography sx={{ p: 1 }}>{ sideMenuOpen ? 'Hide' : 'Expand' }</Typography>
-        </Popover>
+            <Typography sx={{ p: 1 }}>{ sideMenuOpen ? 'Hide' : 'Expand' }</Typography>
+          </Popover>
         </ToggleSideMenu>
         <Box>
           <KanbanHeader>
@@ -69,7 +75,9 @@ export const Board: React.FC<BoardProps> = ({ sideMenuToggle, sideMenuOpen }) =>
                   backgroundColor: '#848daf',
                 },
                 color: 'white'
-              }}>
+              }}
+              onClick={() => setNewTask(true)}
+              >
               <AddIcon />
               Add Task
             </Fab>
@@ -78,10 +86,10 @@ export const Board: React.FC<BoardProps> = ({ sideMenuToggle, sideMenuOpen }) =>
         <KanbanBoard container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
           <KanbanRow container xs={3}>
             <Grid item>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <KanbanRowHeader>
                 <CircleIcon sx={{ fill: '#3ecffc', width: '1rem' }} />
                 Todo
-              </Box>
+              </KanbanRowHeader>
             </Grid>
             <Grid item>
               <TaskPreview />
@@ -89,10 +97,10 @@ export const Board: React.FC<BoardProps> = ({ sideMenuToggle, sideMenuOpen }) =>
           </KanbanRow>
           <KanbanRow container xs={3}>
             <Grid item>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <KanbanRowHeader>
                 <CircleIcon sx={{ fill: '#3ecffc', width: '1rem' }} />
                 Todo
-              </Box>
+              </KanbanRowHeader>
             </Grid>
             <Grid item>
               <TaskPreview />
@@ -103,10 +111,21 @@ export const Board: React.FC<BoardProps> = ({ sideMenuToggle, sideMenuOpen }) =>
           </KanbanRow>
           <KanbanRow container xs={3}>
             <Grid item>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <KanbanRowHeader>
                 <CircleIcon sx={{ fill: '#3ecffc', width: '1rem' }} />
                 Todo
-              </Box>
+              </KanbanRowHeader>
+            </Grid>
+            <Grid item>
+              <TaskPreview />
+            </Grid>
+          </KanbanRow>
+          <KanbanRow container xs={3}>
+            <Grid item>
+              <KanbanRowHeader>
+                <CircleIcon sx={{ fill: '#3ecffc', width: '1rem' }} />
+                Todo
+              </KanbanRowHeader>
             </Grid>
             <Grid item>
               <TaskPreview />
@@ -114,6 +133,7 @@ export const Board: React.FC<BoardProps> = ({ sideMenuToggle, sideMenuOpen }) =>
           </KanbanRow>
         </KanbanBoard>
       </KanbanWrapper>
+      { newTask && <AddTask open={newTask} handleOpen={setNewTask} /> }
     </Box>
   );
 }

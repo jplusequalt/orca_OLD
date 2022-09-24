@@ -9,7 +9,10 @@ export const Main = () => {
   const [sideMenuOpen, setSideMenuOpen] = useState(true);
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box 
+      sx={{ 
+        display: 'flex'
+    }}>
       <SideMenu visible={sideMenuOpen} />
       <Board sideMenuToggle={setSideMenuOpen} sideMenuOpen={sideMenuOpen} />
     </Box>

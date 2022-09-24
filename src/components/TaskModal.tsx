@@ -4,6 +4,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import ShareIcon from '@mui/icons-material/Share';
 import ClearIcon from '@mui/icons-material/Clear';
 import { Assignee, AssigneeAvatar, IconBox, TaskStatus } from '../styles/TaskModal.styled';
+import { theme } from '../Theme';
 
 type TaskModalProps = {
   open: boolean,
@@ -40,7 +41,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({ open, handleOpen }) => {
           display: 'block'
         }}>
           <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Typography>Tag</Typography>
+            <Typography sx={{ color: theme.palette.text.secondary }}>Tag</Typography>
             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', gap: '1rem' }}>
               <IconBox>
                 <VisibilityIcon />
@@ -73,7 +74,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({ open, handleOpen }) => {
                     <MenuItem value='Completed'>Completed</MenuItem>
                   </Select>
                 </FormControl>
-                <Typography>Assignee</Typography>
+                <Typography sx={{ color: theme.palette.text.secondary }}>Assignee</Typography>
                 <FormControl sx={{ minWidth: 100, mb: 2 }}>
                   <Select
                     value={assignee}
@@ -98,7 +99,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({ open, handleOpen }) => {
                   </Select>
                 </FormControl>
               </Box>
-              <Typography variant='subtitle1'>Description</Typography>
+              <Typography variant='subtitle1' sx={{ color: theme.palette.text.secondary }}>Description</Typography>
               <Typography variant='body1'>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi consequatur rerum libero, eveniet voluptate ex? Obcaecati, explicabo, ipsam commodi est ullam mollitia expedita fugiat magni neque enim ea necessitatibus optio? Eaque itaque possimus fuga distinctio aliquam suscipit quis quisquam aspernatur.
               </Typography>

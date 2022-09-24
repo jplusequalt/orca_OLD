@@ -8,7 +8,7 @@ import ListItemText from '@mui/material/ListItemText';
 import ViewColumnIcon from '@mui/icons-material/ViewColumn';
 import { BoardMenuList } from '../styles/SideMenu.styled';
 
-const drawerWidth = 300;
+const drawerWidth = 200;
 
 type SideMenuProps = {
   visible: boolean

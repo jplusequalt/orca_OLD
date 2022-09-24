@@ -1,7 +1,8 @@
 import{ useState } from 'react';
 import { CardActionArea, CardContent, Typography, Box, Avatar } from '@mui/material';
-import { TaskCard } from '../styles/TaskPreview.styled';
+import { AssigneeAvatarPreview, TaskCard } from '../styles/TaskPreview.styled';
 import { TaskModal } from './TaskModal';
+import { theme } from '../Theme';
 
 export const TaskPreview = () => {
 
@@ -11,20 +12,15 @@ export const TaskPreview = () => {
     <>
       <TaskCard>
         <CardActionArea>
-          <CardContent onClick={() => setOpen(!open)}>
-            <Typography>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae!</Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem' }}>
+          <CardContent sx={{ padding: '0.65rem' }} onClick={() => setOpen(!open)}>
+            <Typography variant='subtitle1'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae!</Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem', mt: 1 }}>
               <Box>
-                <Typography>0 of 2 subtasks</Typography>
+                <Typography sx={{ color: theme.palette.text.secondary }} variant='subtitle2'>0 of 2 subtasks</Typography>
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <Typography variant='subtitle1'>Tag</Typography>
-                <Avatar 
-                  sx={{
-                    width: '1rem',
-                    height: '1rem',
-                  }}
-                />
+                <Typography sx={{ color: theme.palette.text.secondary }} variant='subtitle2'>Tag</Typography>
+                <AssigneeAvatarPreview />
               </Box>
             </Box>
           </CardContent>
