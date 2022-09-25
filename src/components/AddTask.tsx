@@ -1,6 +1,8 @@
-import { Dispatch, SetStateAction} from 'react';
-import { Modal, Box, Select, Button, Typography, TextField } from '@mui/material';
+import { Dispatch, SetStateAction, useState } from 'react';
+import { Modal, Box, Select, Button, Typography, TextField, MenuItem, SelectChangeEvent } from '@mui/material';
 import { theme } from '../Theme';
+import { TaskInput } from '../styles/AddTask.styled';
+import { Assignee, AssigneeAvatar, TaskStatus } from '../styles/TaskModal.styled';
 
 type AddTaskProps = {
   open: boolean,
@@ -8,6 +10,17 @@ type AddTaskProps = {
 }
 
 export const AddTask: React.FC<AddTaskProps> = ({ open, handleOpen }) => {
+  const [taskStatus, setTaskStatus] = useState<string>('Backlog');
+  const [assignee, setAssignee] = useState<string>('Person 1');
+
+  const handleTaskChange = (event: SelectChangeEvent) => {
+    setTaskStatus(event.target.value);
+  }
+
+  const handleAssigneeChange = (event: SelectChangeEvent) => {
+    setAssignee(event.target.value);
+  }
+
   return (
     <Modal open={open}>
       <Box
@@ -28,14 +41,59 @@ export const AddTask: React.FC<AddTaskProps> = ({ open, handleOpen }) => {
           <Box
             component='form'
             sx={{
-              '& > :not(style)': { m: 1, width: '25ch' },
+              '& > :not(style)': { mt: 3, width: '100%' },
             }}
             noValidate
             autoComplete="off"
           >
-            <TextField label='Summary' variant='outlined' />
+            <TaskInput maxRows={2} maxLength={250} />
+            <Typography variant='h6' sx={{ fontSize: '0.9rem', color: theme.palette.text.secondary, margin: 0 }} marginBottom={0}>Description</Typography>
+            <TaskInput minRows={5} maxRows={10} maxLength={4000} />
+            <Box sx={{ display: 'flex', gap: '1rem', flexDirection: 'column' }}>
+              <Box>
+                <Select
+                  value={taskStatus}
+                  onChange={handleTaskChange}
+                  displayEmpty
+                  autoWidth
+                  input={<TaskStatus />}
+                  inputProps={{ 'aria-label': 'Without label' }}
+                  defaultValue={taskStatus}
+                  >
+                  <MenuItem value='Todo'>Todo</MenuItem>
+                  <MenuItem value='In Progress'>In Progress</MenuItem>
+                  <MenuItem value='Completed'>Completed</MenuItem>
+                  <MenuItem value='Blocked'>Blocked</MenuItem>
+                  <MenuItem value='Backlog'>Backlog</MenuItem>
+                </Select>
+              </Box>
+              <Box sx={{ display: 'flex', gap: '1rem' }}>
+                Assignee
+                <Select
+                  value={assignee}
+                  onChange={handleAssigneeChange}
+                  displayEmpty
+                  autoWidth
+                  input={<Assignee />}
+                  inputProps={{ 'aria-label': 'Without label' }}
+                  >
+                  <MenuItem value='Person 1' sx={{ display: 'flex', gap: '1rem' }}>
+                    <AssigneeAvatar />
+                    Person 1
+                  </MenuItem>
+                  <MenuItem value='Person 2' sx={{ display: 'flex', gap: '1rem'}}>
+                    <AssigneeAvatar />
+                    Person 2
+                  </MenuItem>
+                  <MenuItem value='Person 3' sx={{ display: 'flex', gap: '1rem'}}>
+                    <AssigneeAvatar />
+                    Person 3
+                  </MenuItem>
+                </Select>
+              </Box>
+            </Box>
           </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', mt: 3 }}>
             <Button 
               variant='text' 
               sx={{ 

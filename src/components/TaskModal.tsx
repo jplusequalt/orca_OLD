@@ -32,13 +32,16 @@ export const TaskModal: React.FC<TaskModalProps> = ({ open, handleOpen }) => {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: '75%',
-          height: '75%',
+          width: '40%',
+          height: '50%',
           bgcolor: 'background.paper',
           borderRadius: '8px',
           boxShadow: 24,
           p: 4,
-          display: 'block'
+          display: 'block',
+          '@media (max-width: 1200px)': {
+            width: '70%'
+          }
         }}>
           <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
             <Typography sx={{ color: theme.palette.text.secondary }}>Tag</Typography>
