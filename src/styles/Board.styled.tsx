@@ -81,7 +81,7 @@ export const KanbanHeader = styled(Box)({
   justifyContent: 'space-between', 
   marginBottom: '3rem',
   '@media(max-width: 810px)': {
-    transform: 'scale(0.97)'
+    transform: 'scale(0.95)'
   } 
 });
 
@@ -100,7 +100,7 @@ export const KanbanRowHeader = styled(Box)({
   alignItems: 'center', 
   gap: '1rem', 
   '@media(max-width: 810px)': {
-    transform: 'scale(0.95)'
+    transform: 'scale(0.85)'
   }
 });
 
@@ -109,8 +109,8 @@ export const KanbanRow = styled(Grid)({
   flexDirection: 'column', 
   alignItems: 'flex-start', 
   gap: '2.5rem',
-  paddingRight: '1.5rem',
+  paddingRight: 0,
   '@media(max-width: 810px)': {
-    transform: 'scale(0.95)'
+    transform: 'scale(0.85)'
   }
 });

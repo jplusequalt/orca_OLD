@@ -1,17 +1,26 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useState, ChangeEvent } from 'react';
 import { Modal, Box, Select, Button, Typography, TextField, MenuItem, SelectChangeEvent } from '@mui/material';
 import { theme } from '../Theme';
 import { TaskInput } from '../styles/AddTask.styled';
 import { Assignee, AssigneeAvatar, TaskStatus } from '../styles/TaskModal.styled';
+import { Task } from '../model/Task';
 
 type AddTaskProps = {
   open: boolean,
-  handleOpen: Dispatch<SetStateAction<boolean>>
+  handleOpen: Dispatch<SetStateAction<boolean>>,
+  handleNewTask: (newTask: Task) => void
 }
 
-export const AddTask: React.FC<AddTaskProps> = ({ open, handleOpen }) => {
+export const AddTask: React.FC<AddTaskProps> = ({ open, handleOpen, handleNewTask }) => {
+
+  const [title, setTitle] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
   const [taskStatus, setTaskStatus] = useState<string>('Backlog');
   const [assignee, setAssignee] = useState<string>('Person 1');
+
+  const handleTitleChange = (event: ChangeEvent<HTMLTextAreaElement>) => setTitle(event.target.value);
+
+  const handleDescriptionChange = (event: ChangeEvent<HTMLTextAreaElement>) => setDescription(event.target.value);
 
   const handleTaskChange = (event: SelectChangeEvent) => {
     setTaskStatus(event.target.value);
@@ -19,6 +28,12 @@ export const AddTask: React.FC<AddTaskProps> = ({ open, handleOpen }) => {
 
   const handleAssigneeChange = (event: SelectChangeEvent) => {
     setAssignee(event.target.value);
+  }
+
+  const handleSubmit = (event: any) => {
+    let newTask = new Task(title, description, Math.random().toString(), taskStatus, assignee);
+    handleNewTask(newTask);
+    handleOpen(false);
   }
 
   return (
@@ -46,9 +61,9 @@ export const AddTask: React.FC<AddTaskProps> = ({ open, handleOpen }) => {
             noValidate
             autoComplete="off"
           >
-            <TaskInput maxRows={2} maxLength={250} />
+            <TaskInput maxRows={2} maxLength={250} value={title} onChange={handleTitleChange} />
             <Typography variant='h6' sx={{ fontSize: '0.9rem', color: theme.palette.text.secondary, margin: 0 }} marginBottom={0}>Description</Typography>
-            <TaskInput minRows={5} maxRows={10} maxLength={4000} />
+            <TaskInput minRows={5} maxRows={10} maxLength={4000} value={description} onChange={handleDescriptionChange} />
             <Box sx={{ display: 'flex', gap: '1rem', flexDirection: 'column' }}>
               <Box>
                 <Select
@@ -110,7 +125,7 @@ export const AddTask: React.FC<AddTaskProps> = ({ open, handleOpen }) => {
                 color: theme.palette.text.secondary,
                 fontVariant: ''
               }}
-              onClick={() => handleOpen(false)}
+              onClick={handleSubmit}
               >
               Create
             </Button>

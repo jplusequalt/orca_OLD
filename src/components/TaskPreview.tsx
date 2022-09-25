@@ -3,8 +3,14 @@ import { CardActionArea, CardContent, Typography, Box, Avatar } from '@mui/mater
 import { AssigneeAvatarPreview, TaskCard } from '../styles/TaskPreview.styled';
 import { TaskModal } from './TaskModal';
 import { theme } from '../Theme';
+import { Task } from '../model/Task';
 
-export const TaskPreview = () => {
+type TaskPreviewProps = {
+  contents: Task,
+  parentWidth: number
+}
+
+export const TaskPreview: React.FC<TaskPreviewProps> = ({ contents, parentWidth }) => {
 
   const [open, setOpen] = useState<boolean>(false);
 
@@ -13,20 +19,20 @@ export const TaskPreview = () => {
       <TaskCard>
         <CardActionArea>
           <CardContent sx={{ padding: '0.65rem' }} onClick={() => setOpen(!open)}>
-            <Typography variant='subtitle1'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae!</Typography>
+            <Typography variant='subtitle1'>{ contents.title }</Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem', mt: 1 }}>
               <Box>
-                <Typography sx={{ color: theme.palette.text.secondary }} variant='subtitle2'>0 of 2 subtasks</Typography>
+                <Typography sx={{ color: theme.palette.text.secondary }} noWrap variant='subtitle2'>0 of 2 subtasks</Typography>
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <Typography sx={{ color: theme.palette.text.secondary }} variant='subtitle2'>Tag</Typography>
+                <Typography sx={{ color: theme.palette.text.secondary }} variant='subtitle2'>I3CG-220</Typography>
                 <AssigneeAvatarPreview />
               </Box>
             </Box>
           </CardContent>
         </CardActionArea>
       </TaskCard>
-      <TaskModal open={open} handleOpen={setOpen} />
+      <TaskModal contents={contents} open={open} handleOpen={setOpen} />
     </>
   );
 }

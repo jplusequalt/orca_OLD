@@ -1,27 +1,51 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
-import { Box, Modal, Typography, FormControl, Select, MenuItem, Avatar, SelectChangeEvent } from '@mui/material';
+import { Box, Modal, Typography, FormControl, Select, MenuItem, SelectChangeEvent } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ShareIcon from '@mui/icons-material/Share';
 import ClearIcon from '@mui/icons-material/Clear';
 import { Assignee, AssigneeAvatar, IconBox, TaskStatus } from '../styles/TaskModal.styled';
 import { theme } from '../Theme';
+import { Task } from '../model/Task';
+import { useTasks } from '../hooks/useTasks';
 
 type TaskModalProps = {
+  contents: Task,
   open: boolean,
   handleOpen: Dispatch<SetStateAction<boolean>>
 }
 
-export const TaskModal: React.FC<TaskModalProps> = ({ open, handleOpen }) => {
+export const TaskModal: React.FC<TaskModalProps> = ({ contents, open, handleOpen }) => {
 
-  const [taskStatus, setTaskStatus] = useState<string>('Todo');
-  const [assignee, setAssignee] = useState<string>('Person 1');
+  const { tasks, setTasks } = useTasks();
+  const [taskStatus, setTaskStatus] = useState<string>(contents.status);
+  const [assignee, setAssignee] = useState<string>(contents.assignee);
 
   const handleTaskChange = (event: SelectChangeEvent) => {
     setTaskStatus(event.target.value);
+
+    let temp = new Task(
+      contents.title, 
+      contents.description, 
+      contents.tag, 
+      event.target.value, 
+      contents.assignee
+    );
+
+    setTasks(tasks.filter((task: Task) => task.tag !== contents.tag).concat(temp));
   }
 
   const handleAssigneeChange = (event: SelectChangeEvent) => {
     setAssignee(event.target.value);
+
+    let temp = new Task(
+      contents.title, 
+      contents.description, 
+      contents.tag, 
+      contents.status,
+      event.target.value 
+    );
+
+    setTasks(tasks.filter((task: Task) => task.tag !== contents.tag).concat(temp));
   }
 
   return (
@@ -60,7 +84,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({ open, handleOpen }) => {
           <Box>
             <Box>
               <Typography variant='h5' sx={{ mt: 2, mb: 2 }}>
-                This is the title
+                { contents.title }
               </Typography>
               <Box sx={{ display: 'flex', gap: '1rem' }}>
                 <FormControl sx={{ minWidth: 80, mb: 2 }}>
@@ -75,6 +99,8 @@ export const TaskModal: React.FC<TaskModalProps> = ({ open, handleOpen }) => {
                     <MenuItem value='Todo'>Todo</MenuItem>
                     <MenuItem value='In Progress'>In Progress</MenuItem>
                     <MenuItem value='Completed'>Completed</MenuItem>
+                    <MenuItem value='Blocked'>Blocked</MenuItem>
+                    <MenuItem value='Backlog'>Backlog</MenuItem>
                   </Select>
                 </FormControl>
                 <Typography sx={{ color: theme.palette.text.secondary }}>Assignee</Typography>
@@ -104,7 +130,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({ open, handleOpen }) => {
               </Box>
               <Typography variant='subtitle1' sx={{ color: theme.palette.text.secondary }}>Description</Typography>
               <Typography variant='body1'>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi consequatur rerum libero, eveniet voluptate ex? Obcaecati, explicabo, ipsam commodi est ullam mollitia expedita fugiat magni neque enim ea necessitatibus optio? Eaque itaque possimus fuga distinctio aliquam suscipit quis quisquam aspernatur.
+                { contents.description }
               </Typography>
             </Box>
           </Box>
