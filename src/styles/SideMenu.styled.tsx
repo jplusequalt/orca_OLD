@@ -6,7 +6,7 @@ export const BoardMenuList = styled(Drawer, { shouldForwardProp: (prop) => prop 
 }>(({ drawerWidth, theme }) => ({
   width: drawerWidth,
   flexShrink: 0,
-  ['& .MuiDrawer-paper']: {
+  '& .MuiDrawer-paper': {
     width: drawerWidth,
     boxSizing: 'border-box',
     height: '100vh',

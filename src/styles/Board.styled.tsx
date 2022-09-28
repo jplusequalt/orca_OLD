@@ -99,7 +99,7 @@ export const KanbanRowHeader = styled(Box)({
   gap: '1rem'
 });
 
-export const KanbanRow = styled(Stack)({
+export const KanbanColumn = styled(Stack)({
   display: 'flex', 
   width: '25%',
   flexDirection: 'column',

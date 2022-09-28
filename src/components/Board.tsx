@@ -1,5 +1,5 @@
-import { KanbanBoard, KanbanHeader, KanbanRow, KanbanRowHeader, KanbanWrapper, ToggleSideMenu, ToggleSideMenuIcon } from '../styles/Board.styled';
-import React, { SetStateAction, Dispatch, useState, useRef, useEffect } from 'react';
+import { KanbanBoard, KanbanColumn, KanbanHeader, KanbanRowHeader, KanbanWrapper, ToggleSideMenu, ToggleSideMenuIcon } from '../styles/Board.styled';
+import React, { SetStateAction, Dispatch, useState } from 'react';
 import { Box, Grid, Typography, Fab, Popover } from '@mui/material';
 import CircleIcon from '@mui/icons-material/Circle';
 import AddIcon from '@mui/icons-material/Add';
@@ -7,40 +7,12 @@ import { theme } from '../Theme';
 import { TaskPreview } from './TaskPreview';
 import { AddTask } from './AddTask';
 import { Task } from '../model/Task';
-import { TaskProvider } from '../context/TaskProvider';
 import { useTasks } from '../hooks/useTasks';
 
 type BoardProps = {
   sideMenuToggle: Dispatch<SetStateAction<boolean>>
   sideMenuOpen: boolean
 }
-
-const useContainerDimensions = (myRef: any) => {
-  const getDimensions = () => ({
-    width: myRef.current.offsetWidth,
-    height: myRef.current.offsetHeight
-  });
-
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-
-  useEffect(() => {
-    const handleResize = () => {
-      setDimensions(getDimensions())
-    }
-
-    if (myRef.current) {
-      setDimensions(getDimensions())
-    }
-
-    window.addEventListener("resize", handleResize)
-
-    return () => {
-      window.removeEventListener("resize", handleResize)
-    }
-  }, [myRef]);
-
-  return dimensions;
-};
 
 export const Board: React.FC<BoardProps> = ({ sideMenuToggle, sideMenuOpen }) => {
 
@@ -62,19 +34,14 @@ export const Board: React.FC<BoardProps> = ({ sideMenuToggle, sideMenuOpen }) =>
   };
 
   const open = Boolean(anchorEl);
-
-  const myRef = useRef(null);
-  const { width, height } = useContainerDimensions(myRef);
-  console.log(width);
   
-
   return (
     <Box 
       sx={{ 
         width: '100%', 
         display: 'flex'
       }}>
-      <KanbanWrapper open={sideMenuOpen} ref={myRef}>
+      <KanbanWrapper open={sideMenuOpen}>
         <ToggleSideMenu
           onClick={() => { sideMenuToggle(!sideMenuOpen) }}
           open={sideMenuOpen}
@@ -125,7 +92,7 @@ export const Board: React.FC<BoardProps> = ({ sideMenuToggle, sideMenuOpen }) =>
           </KanbanHeader>
         </Box>
         <KanbanBoard>
-          <KanbanRow>
+          <KanbanColumn>
             <Box>
               <KanbanRowHeader>
                 <CircleIcon sx={{ fill: '#3ecffc', width: '1rem' }} />
@@ -139,8 +106,8 @@ export const Board: React.FC<BoardProps> = ({ sideMenuToggle, sideMenuOpen }) =>
                 </Grid>
               })
             }
-          </KanbanRow>
-          <KanbanRow>
+          </KanbanColumn>
+          <KanbanColumn>
             <Box>
               <KanbanRowHeader>
                 <CircleIcon sx={{ fill: '#ce3b3b', width: '1rem' }} />
@@ -154,8 +121,8 @@ export const Board: React.FC<BoardProps> = ({ sideMenuToggle, sideMenuOpen }) =>
                 </Grid>
               })
             }
-          </KanbanRow>
-          <KanbanRow>
+          </KanbanColumn>
+          <KanbanColumn>
             <Box>
               <KanbanRowHeader>
                 <CircleIcon sx={{ fill: '#c03efc', width: '1rem' }} />
@@ -169,8 +136,8 @@ export const Board: React.FC<BoardProps> = ({ sideMenuToggle, sideMenuOpen }) =>
                 </Grid>
               })
             }
-          </KanbanRow>
-          <KanbanRow>
+          </KanbanColumn>
+          <KanbanColumn>
             <Box>
               <KanbanRowHeader>
                 <CircleIcon sx={{ fill: '#26c94a', width: '1rem' }} />
@@ -184,7 +151,7 @@ export const Board: React.FC<BoardProps> = ({ sideMenuToggle, sideMenuOpen }) =>
                 </Grid>
               })
             }
-          </KanbanRow>
+          </KanbanColumn>
         </KanbanBoard>
       </KanbanWrapper>
       { newTask && <AddTask open={newTask} handleOpen={setNewTask} handleNewTask={handleNewTask} /> }

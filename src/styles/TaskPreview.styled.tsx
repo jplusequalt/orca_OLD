@@ -1,4 +1,4 @@
-import { Card, styled, Avatar, Box } from '@mui/material';
+import { styled, Avatar, Box } from '@mui/material';
 import { theme } from '../Theme';
 
 export const TaskCard = styled(Box)(({ theme }) => ({

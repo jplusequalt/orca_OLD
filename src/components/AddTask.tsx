@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useState, ChangeEvent } from 'react';
-import { Modal, Box, Select, Button, Typography, TextField, MenuItem, SelectChangeEvent } from '@mui/material';
+import { Modal, Box, Select, Button, Typography, MenuItem, SelectChangeEvent } from '@mui/material';
 import { theme } from '../Theme';
 import { TaskInput } from '../styles/AddTask.styled';
 import { Assignee, AssigneeAvatar, TaskStatus } from '../styles/TaskModal.styled';

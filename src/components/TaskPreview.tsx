@@ -1,5 +1,5 @@
 import{ useState } from 'react';
-import { CardActionArea, CardContent, Typography, Box, Avatar } from '@mui/material';
+import { Typography, Box } from '@mui/material';
 import { AssigneeAvatarPreview, TaskCard } from '../styles/TaskPreview.styled';
 import { TaskModal } from './TaskModal';
 import { theme } from '../Theme';
