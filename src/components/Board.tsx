@@ -15,7 +15,7 @@ type BoardProps = {
   sideMenuOpen: boolean
 }
 
-const useContainerDimensions = (myRef: any, open: boolean) => {
+const useContainerDimensions = (myRef: any) => {
   const getDimensions = () => ({
     width: myRef.current.offsetWidth,
     height: myRef.current.offsetHeight
@@ -63,8 +63,10 @@ export const Board: React.FC<BoardProps> = ({ sideMenuToggle, sideMenuOpen }) =>
 
   const open = Boolean(anchorEl);
 
-  const rowRef = useRef(null);
-  const { width, height } = useContainerDimensions(rowRef, sideMenuOpen);
+  const myRef = useRef(null);
+  const { width, height } = useContainerDimensions(myRef);
+  console.log(width);
+  
 
   return (
     <Box 
@@ -72,7 +74,7 @@ export const Board: React.FC<BoardProps> = ({ sideMenuToggle, sideMenuOpen }) =>
         width: '100%', 
         display: 'flex'
       }}>
-      <KanbanWrapper open={sideMenuOpen}>
+      <KanbanWrapper open={sideMenuOpen} ref={myRef}>
         <ToggleSideMenu
           onClick={() => { sideMenuToggle(!sideMenuOpen) }}
           open={sideMenuOpen}
@@ -122,63 +124,63 @@ export const Board: React.FC<BoardProps> = ({ sideMenuToggle, sideMenuOpen }) =>
             </Fab>
           </KanbanHeader>
         </Box>
-        <KanbanBoard container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-          <KanbanRow container xs={3}>
-            <Grid item>
+        <KanbanBoard>
+          <KanbanRow>
+            <Box>
               <KanbanRowHeader>
                 <CircleIcon sx={{ fill: '#3ecffc', width: '1rem' }} />
                 Todo
               </KanbanRowHeader>
-            </Grid>
+            </Box>
             {
-              tasks.filter(task => task.status === 'Todo').map(todos => {
+              tasks.filter(task => task.status === 'Todo').map((todos, i) => {
                 return <Grid item key={todos.tag}>
-                  <TaskPreview contents={todos} parentWidth={width} />
+                  <TaskPreview contents={todos} />
                 </Grid>
               })
             }
           </KanbanRow>
-          <KanbanRow container xs={3} ref={rowRef}>
-            <Grid item>
+          <KanbanRow>
+            <Box>
               <KanbanRowHeader>
                 <CircleIcon sx={{ fill: '#ce3b3b', width: '1rem' }} />
                 Blocked
               </KanbanRowHeader>
-            </Grid>
+            </Box>
             {
-              tasks.filter((task: Task) => task.status === 'Blocked').map(blocked => {
+              tasks.filter((task: Task) => task.status === 'Blocked').map((blocked, i) => {
                 return <Grid item key={blocked.tag}>
-                  <TaskPreview contents={blocked} parentWidth={width} />
+                  <TaskPreview contents={blocked} />
                 </Grid>
               })
             }
           </KanbanRow>
-          <KanbanRow container xs={3}>
-            <Grid item>
+          <KanbanRow>
+            <Box>
               <KanbanRowHeader>
                 <CircleIcon sx={{ fill: '#c03efc', width: '1rem' }} />
                 In Progress
               </KanbanRowHeader>
-            </Grid>
+            </Box>
             {
-              tasks.filter((task: Task) => task.status === 'In Progress').map(progress => {
+              tasks.filter((task: Task) => task.status === 'In Progress').map((progress, i) => {
                 return <Grid item key={progress.tag}>
-                  <TaskPreview contents={progress} parentWidth={width} />
+                  <TaskPreview contents={progress} />
                 </Grid>
               })
             }
           </KanbanRow>
-          <KanbanRow container xs={3}>
-            <Grid item>
+          <KanbanRow>
+            <Box>
               <KanbanRowHeader>
                 <CircleIcon sx={{ fill: '#26c94a', width: '1rem' }} />
                 Completed
               </KanbanRowHeader>
-            </Grid>
+            </Box>
             {
-              tasks.filter((task: Task) => task.status === 'Completed').map(completed => {
+              tasks.filter((task: Task) => task.status === 'Completed').map((completed, i) => {
                 return <Grid item key={completed.tag}>
-                  <TaskPreview contents={completed} parentWidth={width} />
+                  <TaskPreview contents={completed} />
                 </Grid>
               })
             }

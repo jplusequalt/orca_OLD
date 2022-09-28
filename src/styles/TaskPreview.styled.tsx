@@ -1,10 +1,12 @@
-import { Card, styled, Avatar } from '@mui/material';
+import { Card, styled, Avatar, Box } from '@mui/material';
+import { theme } from '../Theme';
 
-export const TaskCard = styled(Card)(({ theme }) => ({
+export const TaskCard = styled(Box)(({ theme }) => ({
   borderRadius: '8px', 
   backgroundColor: theme.palette.background.paper,
-  padding: 0,
-  boxSizing: 'border-box'
+  width: '100%',
+  padding: '1rem',
+  height: 'auto'
 }));
 
 export const AssigneeAvatarPreview = styled(Avatar)({

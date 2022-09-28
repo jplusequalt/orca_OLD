@@ -9,6 +9,7 @@ export const BoardMenuList = styled(Drawer, { shouldForwardProp: (prop) => prop 
   ['& .MuiDrawer-paper']: {
     width: drawerWidth,
     boxSizing: 'border-box',
+    height: '100vh',
     backgroundColor: theme.palette.background.paper
   }
 }));

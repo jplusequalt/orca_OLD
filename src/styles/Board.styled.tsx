@@ -1,6 +1,5 @@
 import ChevronLeft from "@mui/icons-material/ChevronLeft";
-import { Box, Fab, styled, Grid } from "@mui/material";
-import { transform } from "typescript";
+import { Box, Fab, styled, Stack } from "@mui/material";
 import { theme } from "../Theme";
 
 export const KanbanWrapper = styled('div', { shouldForwardProp: (prop) => prop !== 'open' })<{
@@ -11,6 +10,7 @@ export const KanbanWrapper = styled('div', { shouldForwardProp: (prop) => prop !
   paddingBottom: theme.spacing(3),
   paddingLeft: theme.spacing(5),
   paddingRight: theme.spacing(5),
+  marginTop: '4.5rem',
   transition: theme.transitions.create('margin', {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -46,7 +46,7 @@ export const ToggleSideMenu = styled(Fab, { shouldForwardProp: (prop) => prop !=
   open?: boolean;
 }>(({ theme, open }) => ({
   width: '3rem', 
-  height: '3rem', 
+  height: '3rem',
   paddingLeft: 0, 
   marginBottom: '1.5rem', 
   backgroundColor: theme.palette.background.paper,
@@ -71,7 +71,7 @@ export const ToggleSideMenu = styled(Fab, { shouldForwardProp: (prop) => prop !=
     }),
     marginLeft: 0,
     '@media(max-width: 810px)': {
-      marginLeft: '1rem'
+      marginLeft: '0rem'
     }
   })
 }));
@@ -79,38 +79,30 @@ export const ToggleSideMenu = styled(Fab, { shouldForwardProp: (prop) => prop !=
 export const KanbanHeader = styled(Box)({
   display: 'flex', 
   justifyContent: 'space-between', 
-  marginBottom: '3rem',
-  '@media(max-width: 810px)': {
-    transform: 'scale(0.95)'
-  } 
+  marginBottom: '3rem'
 });
 
-export const KanbanBoard = styled(Grid)({
-  paddingLeft: '1.5rem', 
-  paddingRight: '1rem', 
-  maxHeight: '62rem', 
-  overflowY: 'auto',
-  '@media(max-width: 810px)': {
-    paddingRight: theme.spacing(0)
-  },
+export const KanbanBoard = styled(Box)({
+  display: 'flex',
+  width: '100%',
+  height: '62rem',
+  overflowY: 'scroll',
+  overflowX: 'scroll',
+  '@media(max-height: 1200px)': {
+    height: '49rem'
+  }
 });
 
 export const KanbanRowHeader = styled(Box)({
   display: 'flex', 
   alignItems: 'center', 
-  gap: '1rem', 
-  '@media(max-width: 810px)': {
-    transform: 'scale(0.85)'
-  }
+  gap: '1rem'
 });
 
-export const KanbanRow = styled(Grid)({
+export const KanbanRow = styled(Stack)({
   display: 'flex', 
-  flexDirection: 'column', 
-  alignItems: 'flex-start', 
-  gap: '2.5rem',
-  paddingRight: 0,
-  '@media(max-width: 810px)': {
-    transform: 'scale(0.85)'
-  }
+  width: '25%',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  gap: '2.5rem'
 });

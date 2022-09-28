@@ -3,7 +3,7 @@ import { styled } from "@mui/material/styles";
 import { theme } from "../Theme";
 
 export const Nav = styled(AppBar)(({ theme }) => ({
-  position: 'static',
+  position: 'fixed',
   padding: '1.25rem',
   display: 'flex',
   flexDirection: 'row',

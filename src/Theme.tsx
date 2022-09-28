@@ -17,6 +17,7 @@ export const theme: Theme = createTheme({
   },
   typography: {
     subtitle1: {
+      wordWrap: "break-word",
       '@media(max-width: 810px)': {
         fontSize: '0.9rem'
       }
