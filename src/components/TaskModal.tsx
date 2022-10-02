@@ -82,7 +82,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({ contents, open, handleOpen
             </Box>
           </Box>
           <Box>
-            <Box>
+            <Box sx={{ wordBreak: 'break-word' }}>
               <Typography variant='h5' sx={{ mt: 2, mb: 2 }}>
                 { contents.title }
               </Typography>

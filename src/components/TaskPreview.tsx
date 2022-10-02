@@ -16,8 +16,8 @@ export const TaskPreview: React.FC<TaskPreviewProps> = ({ contents }) => {
   return (
     <>
       <TaskCard>
-        <Typography sx={{ wordBreak: 'break-word' }} variant='subtitle2'>{ contents.title }</Typography>
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem', mt: 1 }}>
+        <Typography sx={{ wordBreak: 'break-word' }} variant='body1'>{ contents.title }</Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem', mt: 1, width: '100%' }}>
           <Box>
             <Typography sx={{ color: theme.palette.text.secondary }} variant='subtitle2'>0 of 2</Typography>
           </Box>

@@ -1,8 +1,8 @@
-import { Box } from '@mui/material';
-import { useState } from 'react';
-import { TaskProvider } from '../context/TaskProvider';
-import { Board } from './Board';
-import { SideMenu } from './SideMenu';
+import { Box } from '@mui/material'
+import React, { useState } from 'react'
+import { Board } from './Board'
+import { TaskProvider } from '../context/TaskProvider'
+import { SideMenu } from './SideMenu'
 
 export const Main = () => {
 

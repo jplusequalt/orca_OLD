@@ -103,6 +103,5 @@ export const KanbanColumn = styled(Stack)({
   display: 'flex', 
   width: '25%',
   flexDirection: 'column',
-  alignItems: 'flex-start',
-  gap: '2.5rem'
+  gap: '1rem'
 });
