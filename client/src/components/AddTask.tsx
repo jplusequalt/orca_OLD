@@ -4,6 +4,7 @@ import { theme } from '../Theme';
 import { TaskInput } from '../styles/AddTask.styled';
 import { Assignee, AssigneeAvatar, TaskStatus } from '../styles/TaskModal.styled';
 import { Task } from '../model/Task';
+import { addTask } from '../services/columns';
 
 type AddTaskProps = {
   open: boolean,
@@ -31,9 +32,13 @@ export const AddTask: React.FC<AddTaskProps> = ({ open, handleOpen, handleNewTas
   }
 
   const handleSubmit = (event: any) => {
-    let newTask = new Task(title, description, Math.random().toString(), taskStatus, assignee);
-    handleNewTask(newTask);
-    handleOpen(false);
+    let newTask = new Task(title, description, '123', taskStatus, assignee);
+    addTask(newTask)
+      .then(res => {
+        console.log(res)
+        handleNewTask(newTask);
+        handleOpen(false);
+      });
   }
 
   return (

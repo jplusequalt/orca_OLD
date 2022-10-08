@@ -1,6 +1,6 @@
 import { KanbanBoard, KanbanColumn, KanbanHeader, KanbanRowHeader, KanbanWrapper, ToggleSideMenu, ToggleSideMenuIcon } from '../styles/Board.styled';
 import React, { SetStateAction, Dispatch, useState, useEffect } from 'react';
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd";
 import { Box, Grid, Typography, Fab, Popover } from '@mui/material';
 import CircleIcon from '@mui/icons-material/Circle';
 import AddIcon from '@mui/icons-material/Add';
@@ -10,6 +10,7 @@ import { AddTask } from './AddTask';
 import { Task } from '../model/Task';
 import { useTasks } from '../hooks/useTasks';
 import { v4 as uuid } from 'uuid';
+import { getColumns, updateTask } from '../services/columns';
 
 export type BoardProps = {
   sideMenuToggle: Dispatch<SetStateAction<boolean>>,
@@ -17,30 +18,22 @@ export type BoardProps = {
 }
 
 const itemsFromBackend = [
-  { id: uuid(), content: new Task('Test 1', '', '', '', '') },
-  { id: uuid(), content: new Task('Test 2', '', '', '', '') },
-  { id: uuid(), content: new Task('Test 3', '', '', '', '') },
-  { id: uuid(), content: new Task('Test 4', '', '', '', '') },
+  new Task('Test 1', '', '', '', ''),
+  new Task('Test 2', '', '', '', ''),
+  new Task('Test 3', '', '', '', ''),
+  new Task('Test 4', '', '', '', ''),
 ];
 
+type ColumnsType = {
+  [key: string]: Task[]
+}
+
 const columnsFromBackend = {
-  [uuid()]: {
-    name: "Requested",
-    items: itemsFromBackend
-  },
-  [uuid()]: {
-    name: "To do",
-    items: []
-  },
-  [uuid()]: {
-    name: "In Progress",
-    items: []
-  },
-  [uuid()]: {
-    name: "Done",
-    items: []
-  }
-};
+  'Todo': itemsFromBackend,
+  'Blocked': [],
+  'In Progress': [],
+  'Completed': []
+} as ColumnsType;
 
 export const Board: React.FC<BoardProps> = ({ sideMenuToggle, sideMenuOpen }) => {
   
@@ -58,12 +51,12 @@ export const Board: React.FC<BoardProps> = ({ sideMenuToggle, sideMenuOpen }) =>
 
   const { tasks, setTasks } = useTasks();
 
-  const displayTasks = (items: any[]) => {
+  const displayTasks = (items: Task[]) => {
     return items.map((task, index) => {
-      return <Draggable key={task.content.id} draggableId={task.content.id} index={index}>
+      return <Draggable key={task.id} draggableId={task.id} index={index}>
         {(provided) => {
           return <Box ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-            <TaskPreview contents={task.content} />
+            <TaskPreview contents={task} />
           </Box>
         }}
       </Draggable>
@@ -74,47 +67,57 @@ export const Board: React.FC<BoardProps> = ({ sideMenuToggle, sideMenuOpen }) =>
     setTasks(tasks.concat(newTask));
   }
 
-  const [columns, setColumns] = useState(columnsFromBackend);
+  const [columns, setColumns] = useState<ColumnsType>({});
+
+  useEffect(() => {
+    getColumns()
+      .then(data => {
+        console.log(data);
+        setColumns(data);
+      });
+  }, []);
+
+  useEffect(() => {
+    getColumns()
+      .then(data => {
+        console.log(data);
+        setColumns(data);
+      });
+  }, [tasks])
   
-  // @ts-ignore
   const handleDragEnd = (result: DropResult) => {
     if (!result.destination) return;
     
     const { source, destination } = result;
-
-    console.log(source);
-    console.log(destination);
     
     
     if (source.droppableId !== destination.droppableId) {
-      const sourceColumn = columns[source.droppableId];
-      const destColumn = columns[destination.droppableId];
-      const sourceItems = [...sourceColumn.items];
-      const destItems = [...destColumn.items];
+      const sourceItems = columns[source.droppableId];
+      const destItems = columns[destination.droppableId];
       const [removed] = sourceItems.splice(source.index, 1);
       destItems.splice(destination.index, 0, removed);
+
+      let updatedTask = {
+        ...removed,
+        status: destination.droppableId
+      } as Task;
+
+      updateTask(updatedTask)
+        .then(res => console.log(res));
+
       setColumns({
         ...columns,
-        [source.droppableId]: {
-          ...sourceColumn,
-          items: sourceItems
-        },
-        [destination.droppableId]: {
-          ...destColumn,
-          items: destItems
-        }
+        [source.droppableId]: sourceItems,
+        [destination.droppableId]: destItems
       });
     } else {
       const column = columns[source.droppableId];
-      const copiedItems = [...column.items];
+      const copiedItems = column;
       const [removed] = copiedItems.splice(source.index, 1);
       copiedItems.splice(destination.index, 0, removed);
       setColumns({
         ...columns,
-        [source.droppableId]: {
-          ...column,
-          items: copiedItems
-        }
+        [source.droppableId]: copiedItems
       });
     }
   }
@@ -176,9 +179,9 @@ export const Board: React.FC<BoardProps> = ({ sideMenuToggle, sideMenuOpen }) =>
           </KanbanHeader>
         </Box>
         <KanbanBoard>
-          { /* @ts-ignore */ }
-          <DragDropContext onDragEnd={result => handleDragEnd(result)}>
-            {Object.entries(columns).map(([name, items]) => {
+        <DragDropContext onDragEnd={result => handleDragEnd(result)}>
+          {Object.entries(columns).map(([name, items]) => {
+            if (name !== 'Backlog')
               return <KanbanColumn key={name}>
                 <Box>
                   <KanbanRowHeader>
@@ -186,21 +189,21 @@ export const Board: React.FC<BoardProps> = ({ sideMenuToggle, sideMenuOpen }) =>
                     { name }
                   </KanbanRowHeader>
                 </Box>
-                  <Droppable droppableId={name} key={name}>
-                    {(provided) => {
-                      return <Box
-                      {...provided.droppableProps}
-                      ref={provided.innerRef}
-                      sx={{ height: '60rem', width: '100%' }}
-                      >
-                        { displayTasks(items.items) }
-                        { provided.placeholder }
-                      </Box>
-                    }}
-                  </Droppable>
+                <Droppable droppableId={name} key={name}>
+                  {(provided) => {
+                    return <Box
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    sx={{ height: '60rem', width: '100%' }} 
+                    >
+                      { displayTasks(items) }
+                      { provided.placeholder }
+                    </Box>
+                  }}
+                </Droppable>
               </KanbanColumn>
-            })}
-          </DragDropContext>
+          })}
+        </DragDropContext>
         </KanbanBoard>
       </KanbanWrapper>
       { newTask && <AddTask open={newTask} handleOpen={setNewTask} handleNewTask={handleNewTask} /> }
