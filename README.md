@@ -1,3 +1,1 @@
-# orca
----
-orca is free and simple to use kanban board.
+THIS IS THE OLD REPO FOR ORCA
